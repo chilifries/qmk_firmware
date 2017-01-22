@@ -19,6 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define KEYMAP_COMMON_H
 
 #include "keycode.h"
+#include "keymap.h"
 #include "action.h"
 
 #define KEYMAP( \
