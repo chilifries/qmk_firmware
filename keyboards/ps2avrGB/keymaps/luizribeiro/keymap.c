@@ -13,7 +13,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         NO,  F1,  F2,  F3,  F4,  F5,  F6,  F7,  F8,  F9,  F10, F11, F12, NO,  NO,  NO,  \
         NO,  NO,  NO,  NO,  NO,  NO,  NO,  MPRV,MPLY,MNXT,MUTE,VOLD,VOLU,DEL,      NO,  \
         NO,  NO,  NO,  NO,  NO,  NO,  NO,  PGUP,NO,  NO,  NO,  NO,  NO,  NO,       TRNS,\
-        TRNS,NO,  NO,  PGDN,NO,  NO,  LEFT,DOWN,UP,  RGHT,NO,  NO,  NO,            NO,  \
+        FN1, NO,  NO,  PGDN,NO,  NO,  LEFT,DOWN,UP,  RGHT,NO,  NO,  NO,            NO,  \
         TRNS,NO,  NO,  NO,  NO,  NO,  NO,  NO,  NO,  NO,  NO,  TRNS,          NO,  NO,  \
         TRNS,TRNS,TRNS,          NO,                      TRNS,TRNS,TRNS,NO,  NO,  NO   \
     ),
@@ -55,7 +55,7 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt) {
 }
 
 const uint16_t fn_actions[] PROGMEM = {
-    [0] = ACTION_LAYER_MOMENTARY(1),
+    [0] = ACTION_LAYER_ONESHOT(1),
     [1] = ACTION_LAYER_TOGGLE(2),
     [2] = ACTION_MODS_TAP_KEY(MOD_LCTL, KC_ESC),
     [3] = ACTION_BACKLIGHT_DECREASE(),
