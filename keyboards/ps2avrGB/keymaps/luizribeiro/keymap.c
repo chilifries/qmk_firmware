@@ -1,4 +1,7 @@
 #include "ps2avrGB.h"
+#include "rgblight.h"
+#include "action_layer.h"
+#include "quantum.h"
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_KEYMAP( \
@@ -27,10 +30,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 };
 
+uint8_t current_level = 8;
+
 enum macro_id {
     MAC_EXPOSE,
     MAC_LAUNCHPAD,
     MAC_PRINT_SCREEN,
+    RGB_LEVEL_DOWN,
+    RGB_LEVEL_UP,
 };
 
 const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt) {
@@ -49,6 +56,16 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt) {
             return (event.pressed
                     ? MACRO(D(LGUI), D(LSHIFT), T(4), U(LSHIFT), U(LGUI), END)
                     : MACRO(END));
+        case RGB_LEVEL_DOWN:
+            if (event.pressed && current_level > 0) {
+                current_level--;
+            }
+            break;
+        case RGB_LEVEL_UP:
+            if (event.pressed && current_level < 15) {
+                current_level++;
+            }
+            break;
     }
 
     return MACRO_NONE;
@@ -58,9 +75,30 @@ const uint16_t fn_actions[] PROGMEM = {
     [0] = ACTION_LAYER_ONESHOT(1),
     [1] = ACTION_LAYER_TOGGLE(2),
     [2] = ACTION_MODS_TAP_KEY(MOD_LCTL, KC_ESC),
-    [3] = ACTION_BACKLIGHT_DECREASE(),
-    [4] = ACTION_BACKLIGHT_INCREASE(),
+    [3] = ACTION_MACRO(RGB_LEVEL_DOWN),
+    [4] = ACTION_MACRO(RGB_LEVEL_UP),
     [5] = ACTION_MACRO(MAC_EXPOSE),
     [6] = ACTION_MACRO(MAC_LAUNCHPAD),
     [7] = ACTION_MACRO(MAC_PRINT_SCREEN),
 };
+
+void rgblight_setrgb(uint8_t r, uint8_t g, uint8_t b);
+
+uint8_t dim(uint8_t color, uint8_t opacity) {
+    return ((uint16_t) color * opacity / 0xFF) & 0xFF;
+}
+
+void user_setrgb(uint8_t r, uint8_t g, uint8_t b) {
+    uint8_t alpha = current_level * 0x11;
+    rgblight_setrgb(dim(r, alpha), dim(g, alpha), dim(b, alpha));
+}
+
+void matrix_scan_user(void) {
+    if (IS_LAYER_ON(2)) {
+        user_setrgb(0x00, 0xFF, 0xFF);
+    } else if (IS_LAYER_ON(1)) {
+        user_setrgb(0xFF, 0x66, 0x00);
+    } else {
+        user_setrgb(0xFF, 0x00, 0x00);
+    }
+}

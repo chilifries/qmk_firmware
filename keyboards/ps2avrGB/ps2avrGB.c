@@ -16,6 +16,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "ps2avrGB.h"
+#include "rgblight.h"
 
 #include <avr/pgmspace.h>
 
@@ -23,54 +24,27 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "i2c.h"
 #include "quantum.h"
 
-#define NUM_BACKLIGHT_LEDS 16
-#define BACKLIGHT_LEVELS 15
+extern rgblight_config_t rgblight_config;
 
-const uint32_t layer_colors[] PROGMEM = {
-    [0] = 0xFF0000,
-    [1] = 0xFF6600,
-    [2] = 0x00FFFF,
-};
-
-size_t current_color_idx;
-uint8_t current_level;
-
-uint8_t dim(uint8_t color, uint8_t opacity) {
-    return ((uint16_t) color * opacity / 0xFF) & 0xFF;
-}
-
-void backlight_set_color(uint8_t alpha, uint32_t color) {
-    uint8_t r = dim((color >> 16) & 0xFF, alpha);
-    uint8_t g = dim((color >> 8) & 0xFF, alpha);
-    uint8_t b = dim(color & 0xFF, alpha);
-
-    uint8_t data[3 * NUM_BACKLIGHT_LEDS];
-    for (uint8_t i = 0; i < NUM_BACKLIGHT_LEDS; i++) {
-        data[3 * i] = g;
-        data[3 * i + 1] = r;
-        data[3 * i + 2] = b;
-    }
-
-    i2c_init();
-    i2c_send(0xB0, data, 48);
-}
-
-void backlight_set(uint8_t level) {
-    current_level = level;
-    backlight_set_color(
-        current_level * 0x11,
-        pgm_read_dword(layer_colors + current_color_idx)
-    );
-}
-
-void matrix_scan_user(void) {
-    current_color_idx = 0;
-
-    for (size_t i = 0; i < sizeof(layer_colors) / sizeof(uint32_t); i++) {
-        if (IS_LAYER_ON(i)) {
-            current_color_idx = i;
+void rgblight_set(void) {
+    uint8_t data[3 * RGBLED_NUM];
+    for (uint8_t i = 0; i < RGBLED_NUM; i++) {
+        if (rgblight_config.enable) {
+            data[3 * i] = led[i].g;
+            data[3 * i + 1] = led[i].r;
+            data[3 * i + 2] = led[i].b;
+        } else {
+            data[3 * i] = 0;
+            data[3 * i + 1] = 0;
+            data[3 * i + 2] = 0;
         }
     }
 
-    backlight_set(current_level);
+    i2c_init();
+    i2c_send(0xb0, data, 48);
+}
+
+__attribute__ ((weak))
+void matrix_scan_user(void) {
+    rgblight_task();
 }

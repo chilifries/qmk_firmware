@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3.5
 # Copyright 2017 Luiz Ribeiro <luizribeiro@gmail.com>
 #
 # This program is free software: you can redistribute it and/or modify
@@ -45,9 +45,10 @@ print('Transferring control to bootloader... ', end='')
 dev.set_configuration()
 
 request_type = usb.util.build_request_type(
-        usb.util.CTRL_OUT,
-        usb.util.CTRL_TYPE_CLASS,
-        usb.util.CTRL_RECIPIENT_DEVICE)
+    usb.util.CTRL_OUT,
+    usb.util.CTRL_TYPE_CLASS,
+    usb.util.CTRL_RECIPIENT_DEVICE,
+)
 
 USBRQ_HID_SET_REPORT = 0x09
 HID_REPORT_OPTION = 0x0301
@@ -55,12 +56,12 @@ HID_REPORT_OPTION = 0x0301
 
 try:
     dev.ctrl_transfer(
-            request_type,
-            USBRQ_HID_SET_REPORT,
-            HID_REPORT_OPTION,
-            0,
-            [0, 0, 0xFF] + [0] * 5
-            )
+        request_type,
+        USBRQ_HID_SET_REPORT,
+        HID_REPORT_OPTION,
+        0,
+        [0, 0, 0xFF] + [0] * 5,
+    )
 except usb.core.USBError:
     # for some reason I keep getting USBError, but it works!
     pass
@@ -72,3 +73,4 @@ print('OK')
 print('Programming...')
 if os.system('bootloadHID -r "%s"' % sys.argv[1]) == 0:
     print('\nDone!')
+
