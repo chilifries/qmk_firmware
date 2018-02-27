@@ -63,7 +63,8 @@ enum macro_keycodes {
 #define LT_TC(kc)   LT(_TOUCHCURSOR, kc)        // L-ayer T-ap T-ouch C-ursor
 #define LT_MC(kc)   LT(_MOUSECURSOR, kc)        // L-ayer T-ap M-ouse C-ursor
 #define ALT_TAB     M(KC_ALT_TAB)               // Macro for Alt-Tab
-#define CMD_TAB     M(KC_CMD_TAB)               // Macro for Cmd-Tab
+// #define CMD_TAB     M(KC_CMD_TAB)               // Macro for Cmd-Tab
+#define CMD_TAB     LGUI(KC_TAB)
 #define CTL_TAB     M(KC_CTL_TAB)               // Macro for Ctl-Tab
 #define CMD_SLSH    M(KC_CMD_SLSH)              // Macro for Cmd-Slash (personal shortcut to toggle iTerm2 visibility)
 #define AG_FIND     M(KC_AG_FIND)               // Macros for Cmd-[x] vs Ctrl-[x] based on current AG_NORM or AG_SWAP settings
@@ -96,7 +97,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_TAB,  KC_Q,    KC_W,    KC_F,        KC_P,    KC_G,          KC_J,          KC_L,    KC_U,    KC_Y,    KC_SCLN, KC_BSPC, \
   CTL_ESC, KC_A,    KC_R,    LT_MC(KC_S), KC_T,    KC_D,          KC_H,          KC_N,    KC_E,    KC_I,    KC_O,    KC_QUOT, \
   SFT_BSP, KC_Z,    KC_X,    KC_C,        KC_V,    KC_B,          KC_K,          KC_M,    KC_COMM, KC_DOT,  KC_SLSH, SFT_ENT , \
-  KC_GRV,  KC_LCTL, KC_LALT, KC_LGUI,     LOWER,   LT_TC(KC_SPC), LT_TC(KC_ENT), RAISE,   MY_PREV_TAB, MY_NEXT_TAB, MY_CMD_BACK, MY_CMD_FWD \
+  KC_GRV,  KC_LCTL, KC_LALT, KC_LGUI,     LOWER,   LT_TC(KC_SPC), LT_TC(KC_ENT), RAISE,   KC_LGUI, MY_PREV_TAB, MY_NEXT_TAB, MY_CMD_BACK \
 ),
 
 /* Lower
@@ -111,7 +112,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * `-----------------------------------------------------------------------------------'
  */
 [_LOWER] = KEYMAP( \
-  KC_TILD, KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC, KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_BSPC, \
+  CMD_TAB, KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC, KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_BSPC, \
   KC_LBRC, KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_UNDS, KC_PLUS, KC_LCBR, KC_RCBR, KC_PIPE, \
   KC_RBRC, KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  KC_MINS, KC_EQL,  KC_LBRC, KC_RBRC, KC_BSLS, \
   _______, _______, _______, _______, _______, _______, _______, _______, KC_MNXT, KC_VOLD, KC_VOLU, KC_MPLY \
@@ -282,6 +283,7 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
       eeconfig_init();
     }
 
+    /*
     bool use_cmd = true;    // Use, for example, Cmd-Tab, Cmd-C, Cmd-V, etc.
     // Compare to MAGIC_SWAP_ALT_GUI and MAGIC_UNSWAP_ALT_GUI configs, set in:
     // quantum/quantum.c
@@ -290,45 +292,8 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
     }
 
     switch (id) {
-      case KC_ALT_TAB:
-        if(use_cmd) { return (record->event.pressed ? MACRO( D(LALT),  D(TAB), END ) : MACRO( U(TAB), END )); }
-        else        { return (record->event.pressed ? MACRO( D(LGUI),  D(TAB), END ) : MACRO( U(TAB), END )); }
-      case KC_CMD_TAB:
-        if(use_cmd) { return (record->event.pressed ? MACRO( D(LGUI),  D(TAB), END ) : MACRO( U(TAB), END )); }
-        else        { return (record->event.pressed ? MACRO( D(LALT),  D(TAB), END ) : MACRO( U(TAB), END )); }
-
-      case KC_CTL_TAB:
-        return (record->event.pressed ? MACRO( D(LCTRL), D(TAB), END ) : MACRO( U(TAB), END ));
-      case KC_CMD_SLSH:
-        return (record->event.pressed ? MACRO( D(LGUI),  D(SLSH),END ) : MACRO( U(SLSH),END ));
-
-      case KC_AG_FIND:
-        return use_cmd ? MACRODOWN( D(LGUI), T(F), END ) : MACRODOWN( D(LCTRL), T(F), END );
-      case KC_AG_AGAIN:
-        return use_cmd ? MACRODOWN( D(LGUI), T(G), END ) : MACRODOWN( D(LCTRL), T(G), END );
-      case KC_AG_UNDO:
-        return use_cmd ? MACRODOWN( D(LGUI), T(Z), END ) : MACRODOWN( D(LCTRL), T(Z), END );
-      case KC_AG_CUT:
-        return use_cmd ? MACRODOWN( D(LGUI), T(X), END ) : MACRODOWN( D(LCTRL), T(X), END );
-      case KC_AG_COPY:
-        return use_cmd ? MACRODOWN( D(LGUI), T(C), END ) : MACRODOWN( D(LCTRL), T(C), END );
-      case KC_AG_PASTE:
-        return use_cmd ? MACRODOWN( D(LGUI), T(V), END ) : MACRODOWN( D(LCTRL), T(V), END );
-
-      case KC_AG_DESK_L:
-        return use_cmd ? MACRODOWN( D(LGUI), D(LCTRL), T(SCLN), END ) : MACRODOWN( D(LALT), D(LCTRL), T(SCLN), END );
-      case KC_AG_DESK_R:
-        return use_cmd ? MACRODOWN( D(LGUI), D(LCTRL), T(QUOT), END ) : MACRODOWN( D(LALT), D(LCTRL), T(QUOT), END );
-
-      case KC_AG_TAB_C:
-        return use_cmd ? MACRODOWN( D(LGUI),            T(W), END ) : MACRODOWN( D(LCTRL),            T(W), END );
-      case KC_AG_TAB_N:
-        return use_cmd ? MACRODOWN( D(LGUI),            T(T), END ) : MACRODOWN( D(LCTRL),            T(T), END );
-      case KC_AG_TAB_R:
-        return use_cmd ? MACRODOWN( D(LGUI), D(LSHIFT), T(T), END ) : MACRODOWN( D(LCTRL), D(LSHIFT), T(T), END );
-      case KC_CS_TAB:
-        return (record->event.pressed ? MACRO( D(LCTRL), D(LSHIFT), D(TAB), END ) : MACRO( U(TAB), U(LSHIFT), END ));
     }
-
+    */
+    
     return MACRO_NONE;
 }
