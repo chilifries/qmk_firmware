@@ -23,7 +23,6 @@ enum custom_keycodes {
 #define KC_RASE RAISE
 #define KC_RST RESET
 #define KC_BL_S BL_STEP
-#define KC_BL_T BL_TOGG
 #define KC_DBUG DEBUG
 #define KC_RTOG RGB_TOG
 #define KC_RMOD RGB_MOD
@@ -34,19 +33,21 @@ enum custom_keycodes {
 #define KC_RVAI RGB_VAI
 #define KC_RVAD RGB_VAD
 
+#define KC_CMTB LGUI(KC_TAB)
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [_QWERTY] = KC_KEYMAP(
   //,----+----+----+----+----+----.              ,----+----+----+----+----+----.
-BL_T  , 1, 2,  BL_S,  4  , 5  ,                6  , 7  , 8  , 9  , 0  ,BSPC,
+     GRV , 1  , 2  , 3  , 4  , 5  ,                6  , 7  , 8  , 9  , 0  ,BSPC,
   //|----+----+----+----+----+----|              |----+----+----+----+----+----|
-     TAB , Q  , W  , E  , R  , T  ,                Y  , U  , I  , O  , P  ,DEL ,
+     TAB , Q  , W  , E  , R  , T  ,                Y  , U  , I  , O  , P  ,BSLS ,
   //|----+----+----+----+----+----|              |----+----+----+----+----+----|
-     RASE, A  , S  , D  , F  , G  ,                H  , J  , K  , L  ,SCLN,QUOT,
+     LCTL, A  , S  , D  , F  , G  ,                H  , J  , K  , L  ,SCLN,QUOT,
   //|----+----+----+----+----+----+----.    ,----|----+----+----+----+----+----|
      LSFT, Z  , X  , C  , V  , B  ,SPC ,     ENT , N  , M  ,COMM,DOT ,SLSH,RSFT,
   //`----+----+----+--+-+----+----+----/    \----+----+----+----+----+----+----'
-                       LCTL,LOWR,SPC ,         ENT ,LGUI,LALT
+                       LGUI,LOWR,SPC ,         ENT ,RASE,LALT
   //                  `----+----+----'        `----+----+----'
   ),
 
@@ -54,13 +55,13 @@ BL_T  , 1, 2,  BL_S,  4  , 5  ,                6  , 7  , 8  , 9  , 0  ,BSPC,
   //,----+----+----+----+----+----.              ,----+----+----+----+----+----.
      TILD,EXLM, AT ,HASH,DLR ,PERC,               CIRC,AMPR,ASTR,LPRN,RPRN,BSPC,
   //|----+----+----+----+----+----|              |----+----+----+----+----+----|
-     RST , 1  , 2  , 3  , 4  , 5  ,                6  , 7  , 8  , 9  , 0  ,    ,
+     CMTB,EXLM, AT ,HASH,DLR ,PERC,               CIRC,AMPR,ASTR,LPRN,RPRN,    ,
   //|----+----+----+----+----+----|              |----+----+----+----+----+----|
-     DEL ,    ,LEFT,RGHT, UP ,LBRC,               RBRC, P4 , P5 , P6 ,PLUS,PIPE,
+     LBRC, F1 , F2 , F3 , F4 , F5 ,                F6 ,UNDS,PLUS,LCBR,RCBR,PIPE,
   //|----+----+----+----+----+----+----.    ,----|----+----+----+----+----+----|
-     BL_S,    ,    ,    ,DOWN,LCBR,LPRN,     RPRN,RCBR, P1 , P2 , P3 ,MINS,    ,
+     RBRC, F7 , F8 , F9 , F10, F11,    ,         , F12,MINS, EQL,LBRC,RBRC,BSLS,
   //`----+----+----+--+-+----+----+----/    \----+----+----+----+----+----+----'
-                           ,    ,DEL ,         DEL ,    , P0 
+                           ,    , SPC,         ENT ,    ,  
   //                  `----+----+----'        `----+----+----'
   ),
 
@@ -68,13 +69,13 @@ BL_T  , 1, 2,  BL_S,  4  , 5  ,                6  , 7  , 8  , 9  , 0  ,BSPC,
   //,----+----+----+----+----+----.              ,----+----+----+----+----+----.
      F12 , F1 , F2 , F3 , F4 , F5 ,                F6 , F7 , F8 , F9 ,F10 ,F11 ,
   //|----+----+----+----+----+----|              |----+----+----+----+----+----|
-         ,EXLM, AT ,HASH,DLR ,PERC,               CIRC,AMPR,ASTR,LPRN,RPRN,    ,
+      0  , 1  , 2  , 3  , 4  , 5  ,                6  , 7  , 8  , 9  , 0  ,BSPC,
   //|----+----+----+----+----+----|              |----+----+----+----+----+----|
-         ,MPRV,MNXT,VOLU,PGUP,UNDS,               EQL ,HOME,    ,    ,    ,BSLS,
+      DLR, 4  , 5  , 6  , DOT,PLUS,               DOT , 4  , 5  , 6  ,ASTR,PIPE,
   //|----+----+----+----+----+----+----.    ,----|----+----+----+----+----+----|
-     MUTE,MSTP,MPLY,VOLD,PGDN,MINS,    ,         ,PLUS,END ,    ,    ,    ,    ,
+      EQL, 7  , 8  , 9  , 0  ,MINS,    ,         ,DOT , 1  , 2  , 3  ,SLSH,BSLS,
   //`----+----+----+--+-+----+----+----/    \----+----+----+----+----+----+----'
-                           ,    ,    ,             ,    ,    
+                           ,    , SPC,          ENT,    ,    
   //                  `----+----+----'        `----+----+----'
   ),
 
