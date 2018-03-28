@@ -14,6 +14,10 @@ enum custom_keycodes {
   LOWER,
   RAISE,
   ADJUST,
+  KC_CMD_BACK,
+  KC_CMD_FWD,
+  KC_PREV_TAB,
+  KC_NEXT_TAB
 };
 
 #define KC_ KC_TRNS
@@ -45,7 +49,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|----+----+----+----+----+----|              |----+----+----+----+----+----|
      LCTL, A  , S  , D  , F  , G  ,                H  , J  , K  , L  ,SCLN,QUOT,
   //|----+----+----+----+----+----+----.    ,----|----+----+----+----+----+----|
-     LSFT, Z  , X  , C  , V  , B  ,SPC ,     ENT , N  , M  ,COMM,DOT ,SLSH,RSFT,
+     LSFT, Z  , X  , C  , V  , B  ,PREV_TAB,CMD_BACK , N  , M  ,COMM,DOT ,SLSH,RSFT,
   //`----+----+----+--+-+----+----+----/    \----+----+----+----+----+----+----'
                        LGUI,LOWR,SPC ,         ENT ,RASE,LALT
   //                  `----+----+----'        `----+----+----'
@@ -140,6 +144,30 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         layer_on(_ADJUST);
       } else {
         layer_off(_ADJUST);
+      }
+      return false;
+      break;
+    case KC_CMD_BACK:
+      if (record->event.pressed) {
+	SEND_STRING(SS_LGUI("["));
+      }
+      return false;
+      break;
+    case KC_CMD_FWD:
+      if (record->event.pressed) {
+	SEND_STRING(SS_LGUI("]"));
+      }
+      return false;
+      break;
+    case KC_PREV_TAB:
+      if (record->event.pressed) {
+	SEND_STRING(SS_LCTRL(SS_LSFT("\t")));
+      }
+      return false;
+      break;
+    case KC_NEXT_TAB:
+      if (record->event.pressed) {
+	SEND_STRING(SS_LCTRL("\t"));
       }
       return false;
       break;

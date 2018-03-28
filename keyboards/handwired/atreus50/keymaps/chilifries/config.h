@@ -28,8 +28,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define PRODUCT         Atreus 50 Keyboard
 #define DESCRIPTION     Atreus layout with extra column
 
-#define CATERINA_BOOTLOADER
-
 /* key matrix size */
 #define MATRIX_ROWS 4
 #define MATRIX_COLS 13
@@ -37,7 +35,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /* Planck PCB default pin-out */
 #define MATRIX_ROW_PINS { D3, D2, D1, D0 }
 #define MATRIX_COL_PINS { F4, F5, F6, F7, B1, B3, B2, B6, B5, B4, E6, D7, D4 }
-//#define MATRIX_COL_PINS { D4, D7, E6, B4, B5, B6, B2, B3, B1, F7, F6, F5, F4 }
 #define UNUSED_PINS
 
 /* COL2ROW or ROW2COL */
@@ -47,7 +44,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // #define BACKLIGHT_BREATHING
 // #define BACKLIGHT_LEVELS 3
 
-#define C6_AUDIO
 
 /* Debounce reduces chatter (unintended double-presses) - set 0 if debouncing is not needed */
 #define DEBOUNCING_DELAY 5
@@ -62,13 +58,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /* Locking resynchronize hack */
 #define LOCKING_RESYNC_ENABLE
 
+
 /* ws2812 RGB LED */
-#define RGB_DI_PIN C6
+/* #define RGB_DI_PIN C6
 #define RGBLIGHT_ANIMATIONS
 #define RGBLED_NUM 12     // Number of LEDs
 #define RGBLIGHT_HUE_STEP 10
 #define RGBLIGHT_SAT_STEP 17
 #define RGBLIGHT_VAL_STEP 17
+*/
 
 /*
  * Force NKRO
@@ -102,6 +100,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * useful if your keyboard/keypad is missing keys and you want magic key support.
  *
  */
+
+/* key combination for magic key command */
+#define IS_COMMAND() ( \
+    keyboard_report->mods == (MOD_BIT(KC_LSHIFT) | MOD_BIT(KC_RSHIFT)) \
+)
 
 /* control how magic key switches layers */
 //#define MAGIC_KEY_SWITCH_LAYER_WITH_FKEYS  true
