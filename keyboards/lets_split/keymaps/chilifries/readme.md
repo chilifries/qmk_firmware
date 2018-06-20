@@ -1,1 +1,0 @@
-make lets_split/rev1:chilifries:avrdude
