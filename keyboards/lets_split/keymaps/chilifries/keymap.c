@@ -11,6 +11,7 @@ extern keymap_config_t keymap_config;
 #define _QWERTY 0
 #define _LOWER 1
 #define _RAISE 2
+#define _MOVEMENT 3
 #define _ADJUST 16
 #define CMD_TAB     LGUI(KC_TAB)
 
@@ -18,6 +19,7 @@ enum custom_keycodes {
   QWERTY = SAFE_RANGE,
   LOWER,
   RAISE,
+  MOVEMENT,
   ADJUST,
   MY_CMD_BACK,
   MY_CMD_FWD,
@@ -32,6 +34,8 @@ enum macro_keycodes {
 // Fillers to make layering more clear
 #define _______ KC_TRNS
 #define XXXXXXX KC_NO
+#define KC_X3 LT(_MOVEMENT, KC_SPC)
+#define KC_X5 LT(_MOVEMENT, KC_ENT)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /* Qwerty
@@ -49,7 +53,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_BSLS, \
    KC_LCTL, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT, \
    KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_RSFT, \
-   KC_GRV,  KC_LCTL, KC_LALT, KC_LGUI, LOWER,   KC_SPC,  KC_ENT,  RAISE,   KC_LGUI, MY_PREV_TAB, MY_NEXT_TAB, MY_CMD_BACK \
+   KC_GRV,  KC_LCTL, KC_LALT, KC_LGUI, LOWER,   KC_X3,   KC_X5,   RAISE,   KC_LGUI, MY_PREV_TAB, MY_NEXT_TAB, MY_CMD_BACK \
 ),
 
 /* Lower
@@ -88,6 +92,23 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   _______, _______, _______, _______, _______, _______, _______, _______,  KC_MNXT, KC_VOLD, KC_VOLU,    KC_MPLY \
 ),
 
+[_MOVEMENT] = LAYOUT ( \
+  CMD_TAB, KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC, KC_CIRC, KC_HOME, KC_UP,   KC_END,  KC_RPRN, KC_BSPC, \
+  KC_LBRC, KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_PGUP, KC_LEFT, KC_DOWN, KC_RGHT, KC_RCBR, KC_PIPE, \
+  KC_RBRC, KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_PGDN, KC_UNDS, KC_EQL,  KC_LBRC, KC_RBRC, KC_BSLS, \
+  _______, _______, _______, _______, _______, _______, _______, _______, KC_MNXT, KC_VOLD, KC_VOLU, KC_MPLY \
+
+  //,----+----+----+----+----+----.         ,----+----+----+----+----+----.
+  //   TILD,EXLM, AT ,HASH,DLR ,PERC,          CIRC,HOME, UP ,END ,RPRN,DEL ,
+  //|----+----+----+----+----+----|         |----+----+----+----+----+----|
+  //   DEL , F1 , F2 , F3 , F4 , F5 ,          PGUP,LEFT,DOWN,RGHT,RCBR,PIPE,
+  //|----+----+----+----+----+----|         |----+----+----+----+----+----|
+  //       , F7 , F8 , F9 ,F10 ,F11 ,          PGDN,END ,    ,    ,    ,    ,
+  //|----+----+----+----+----+----|----+----|----+----+----+----+----+----|
+  //       ,    ,    ,    ,    ,    ,    ,    ,PGDN,PGUP,MNXT,VOLD,VOLU,MPLY
+  //`----+----+----+----+----+----+----+----+----+----+----+----+----+----'
+  ),
+
 /* Adjust (Lower + Raise)
  * ,-----------------------------------------------------------------------------------.
  * |      | Reset|      |      |      |      |      |      |      |      |      |  Del |
@@ -100,8 +121,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * `-----------------------------------------------------------------------------------'
  */
 [_ADJUST] =  LAYOUT( \
-  _______, RESET,   _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_DEL, \
-  _______, _______, _______, AU_ON,   AU_OFF,  AG_NORM, AG_SWAP, QWERTY,  _______, _______,  _______, _______, \
+  _______, RESET,   _______, _______, _______, _______, RGB_TOG, RGB_MOD, RGB_HUI, RGB_SAI, RGB_VAI, _______, \
+  _______, _______, _______, AU_ON,   AU_OFF,  _______, _______, RGB_RMOD, RGB_HUD, RGB_SAD, RGB_VAD, _______, \
   _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, \
   _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______ \
 )

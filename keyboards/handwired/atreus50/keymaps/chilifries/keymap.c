@@ -33,8 +33,9 @@ enum custom_keycodes {
 #define KC_X0 MT(MOD_LCTL, KC_ESC)  // Hold for Left Ctrl, Tap for ESC
 #define KC_X1 LOWER
 #define KC_X2 RAISE
-#define KC_X3 MO(_MOVEMENT)
+#define KC_X3 LT(_MOVEMENT, KC_SPC)
 #define KC_X4 MT(MOD_RSFT, KC_ENT)  // Hold for Left Shift, Tap for Enter
+#define KC_X5 LT(_MOVEMENT, KC_ENT)
 #define KC_RST RESET
 #define KC_CMTB LGUI(KC_TAB)
 
@@ -48,7 +49,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|----+----+----+----+----+----|         |----+----+----+----+----+----|
      LSFT, Z  , X  , C  , V  , B  ,           N  , M  ,COMM,DOT ,SLSH, X4 ,
   //|----+----+----+----+----+----|----+----|----+----+----+----+----+----|
-     GRV ,LCTL,LALT,LGUI, X1 ,SPC ,SPC ,ENT ,ENT ,X2  ,RGUI,PREV_TAB,NEXT_TAB,CMD_BACK
+     GRV ,LCTL,LALT,LGUI, X1 ,X3  ,SPC ,ENT ,X5  ,X2  ,RGUI,PREV_TAB,NEXT_TAB,CMD_BACK
   //`----+----+----+----+----+----+----+----+----+----+----+----+----+----'
   ),
 
@@ -78,11 +79,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [_MOVEMENT] = COMPACT_KEYMAP(
   //,----+----+----+----+----+----.         ,----+----+----+----+----+----.
-     TILD,EXLM, AT ,HASH,DLR ,PERC,          CIRC,AMPR, UP ,LPRN,RPRN,DEL ,
+     TILD,EXLM, AT ,HASH,DLR ,PERC,          CIRC,HOME, UP ,END ,RPRN,DEL ,
   //|----+----+----+----+----+----|         |----+----+----+----+----+----|
-     DEL , F1 , F2 , F3 , F4 , F5 ,           F6 ,LEFT,DOWN,RGHT,RCBR,PIPE,
+     DEL , F1 , F2 , F3 , F4 , F5 ,          PGUP,LEFT,DOWN,RGHT,RCBR,PIPE,
   //|----+----+----+----+----+----|         |----+----+----+----+----+----|
-         , F7 , F8 , F9 ,F10 ,F11 ,          F12 ,END ,    ,    ,    ,    ,
+         , F7 , F8 , F9 ,F10 ,F11 ,          PGDN,END ,    ,    ,    ,    ,
   //|----+----+----+----+----+----|----+----|----+----+----+----+----+----|
          ,    ,    ,    ,    ,    ,    ,    ,PGDN,PGUP,MNXT,VOLD,VOLU,MPLY
   //`----+----+----+----+----+----+----+----+----+----+----+----+----+----'
