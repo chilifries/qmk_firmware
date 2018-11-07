@@ -271,6 +271,7 @@ This is a reference only. Each group of keys links to the page documenting their
 |`MAGIC_UNSWAP_BACKSLASH_BACKSPACE`|         |Unswap `\` and Backspace            |
 |`MAGIC_UNHOST_NKRO`               |         |Force NKRO off                      |
 |`MAGIC_UNSWAP_ALT_GUI`            |`AG_NORM`|Unswap Alt and GUI on both sides    |
+|`MAGIC_TOGGLE_ALT_GUI`            |`AG_TOGG`|Toggle Alt and GUI swap on both sides|
 |`MAGIC_TOGGLE_NKRO`               |         |Turn NKRO on or off                 |
 
 ## [Bluetooth](feature_bluetooth.md)
@@ -332,7 +333,6 @@ This is a reference only. Each group of keys links to the page documenting their
 |`HYPR(kc)`|                      |Hold Left Control, Shift, Alt and GUI and press `kc`|
 |`MEH(kc)` |                      |Hold Left Control, Shift and Alt and press `kc`     |
 |`LCAG(kc)`|                      |Hold Left Control, Alt and GUI and press `kc`       |
-|`ALTG(kc)`|                      |Hold Right Control and Alt and press `kc`           |
 |`SGUI(kc)`|`SCMD(kc)`, `SWIN(kc)`|Hold Left Shift and GUI and press `kc`              |
 |`LCA(kc)` |                      |Hold Left Control and Alt and press `kc`            |
 
